@@ -3,42 +3,48 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AR Profile - Klao paksekune</title>
-    <!-- A-Frame และ AR.js -->
-    <script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
-    <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
+    <title>3D Portfolio - Klao paksekune</title>
     <style>
-        body { margin: 0; overflow: hidden; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-        
-        /* สไตล์กล่อง About me (กรอบใส ขอบสีขาวเทา) */
+        body {
+            margin: 0;
+            overflow: hidden;
+            background-color: #66a3a3;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        /* สไตล์กล่อง About me (มุมซ้ายบน กรอบใส ขอบสีขาวเทา) */
         #about-box {
             position: absolute;
-            bottom: 30px;
-            left: 50%;
-            transform: translateX(-50%);
+            top: 25px;
+            left: 25px;
             z-index: 10;
-            background: rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
-            border: 2px solid rgba(220, 220, 220, 0.6);
+            background: rgba(255, 255, 255, 0.12);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 2px solid rgba(220, 220, 220, 0.5);
             border-radius: 12px;
-            padding: 15px 25px;
+            padding: 20px;
             color: #ffffff;
-            text-align: center;
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-            max-width: 90%;
-            width: 350px;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+            max-width: 320px;
+            pointer-events: none; /* ให้เมาส์ทะลุผ่านไปควบคุม 3D ด้านหลังได้ */
+        }
+        #about-box h1 {
+            margin: 0 0 6px 0;
+            font-size: 1.25rem;
+            letter-spacing: 0.5px;
+            color: #ffffff;
+            text-transform: uppercase;
         }
         #about-box h2 {
-            margin: 0 0 8px 0;
-            font-size: 1.2rem;
-            letter-spacing: 1px;
-            color: #f0f0f0;
-            text-transform: uppercase;
+            margin: 0 0 10px 0;
+            font-size: 1rem;
+            color: #ffcccc;
+            font-weight: 500;
         }
         #about-box p {
             margin: 0;
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             line-height: 1.4;
             color: #e0e0e0;
         }
@@ -46,71 +52,166 @@
 </head>
 <body>
 
-    <!-- กล่องข้อความ About me -->
+    <!-- กล่องข้อความ About me บริเวณซ้ายบน -->
     <div id="about-box">
-        <h2>About Me</h2>
-        <p><strong>Klao paksekune</strong><br>3D Modeling & Character Design (2D/3D)</p>
+        <h1>About Me</h1>
+        <h2>Klao paksekune</h2>
+        <p>3D Modeling & Character Design (2D/3D)</p>
     </div>
 
-    <!-- ฉาก AR และ 3D Scene -->
-    <a-scene embedded arjs>
-        
-        <!-- แสงสว่างในฉาก -->
-        <a-light type="ambient" color="#b0e0e6" intensity="0.8"></a-light>
-        <a-light type="directional" color="#fffaed" position="-1 2 1" intensity="1.2"></a-light>
+    <!-- โหลด Three.js จาก CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 
-        <!-- ท้องฟ้าสีฟ้าออกเขียว ปลอดโปร่ง ไม่มีเมฆ -->
-        <a-sky color="#66a3a3"></a-sky>
-
-        <!-- AR Marker (ใช้ Hiro เป็นค่าเริ่มต้น สามารถเปลี่ยนเป็นรูปแบบอื่นได้ตามต้องการ) -->
-        <a-marker preset="hiro">
-            
-            <!-- พื้นทะเลทราย -->
-            <a-plane position="0 0 0" rotation="-90 0 0" width="12" height="12" color="#d4b278" roughness="0.9"></a-plane>
-
-            <!-- ซากปรักหักพังกระจายตัว (ขนาดเล็กและใหญ่) -->
-            <a-box position="-1.5 0.1 -1" width="0.8" height="0.4" depth="0.6" color="#8c7853" rotation="0 25 10"></a-box>
-            <a-box position="1.2 0.2 -1.5" width="1.2" height="0.6" depth="1.0" color="#736142" rotation="0 -15 -5"></a-box>
-            <a-box position="0.5 0.05 1.0" width="0.4" height="0.2" depth="0.5" color="#8c7853" rotation="10 40 0"></a-box>
-            <a-cylinder position="-1.0 0.3 0.8" radius="0.2" height="0.6" color="#615238" rotation="15 0 25"></a-cylinder>
-            <a-box position="-0.8 0.08 -1.8" width="0.5" height="0.15" depth="0.5" color="#736142" rotation="5 10 -8"></a-box>
-
-            <!-- สิ่งมีชีวิตคล้ายควายขายาวทรงหลอมเหลว (ตรงกลาง) ตามเรฟเฟอเรนซ์ภาพ[cite: 2] -->
-            <a-entity id="creature-container" position="0 0 0">
-                
-                <!-- ลำตัวโครงกระดูก (สีแดงสดเงางามแบบของเหลว) -->
-                <a-box position="0 1.2 -0.2" width="0.3" height="0.3" depth="1.2" color="#ff0022" roughness="0.2" metalness="0.8">
-                    <a-animation attribute="rotation" dur="3000" direction="alternate" repeat="indefinite" to="0 5 0"></a-animation>
-                </a-box>
-
-                <!-- ขายาวเรียวและเหลว -->
-                <a-cylinder position="-0.3 0.6 -0.6" radius="0.03" height="1.2" color="#e60019" roughness="0.3"></a-cylinder>
-                <a-cylinder position="0.3 0.6 -0.6" radius="0.03" height="1.2" color="#e60019" roughness="0.3"></a-cylinder>
-                <a-cylinder position="-0.25 0.6 0.4" radius="0.03" height="1.2" color="#e60019" roughness="0.3"></a-cylinder>
-                <a-cylinder position="0.25 0.6 0.4" radius="0.03" height="1.2" color="#e60019" roughness="0.3"></a-cylinder>
-
-                <!-- เขาโค้งยาวอันเป็นเอกลักษณ์ -->
-                <a-torus position="0 1.5 -0.8" radius="0.4" radius-tubular="0.02" arc="270" color="#ff1a3c" rotation="0 90 45"></a-torus>
-
-            </a-entity>
-
-        </a-marker>
-
-        <!-- กล้องสำหรับ AR -->
-        <a-entity camera></a-entity>
-    </a-scene>
-
-    <!-- Script ควบคุมให้สิ่งมีชีวิตหันจ้องมองตามเคอร์เซอร์เมาส์ -->
     <script>
-        const creature = document.querySelector('#creature-container');
-        
-        window.addEventListener('mousemove', (event) => {
-            // คำนวณพิกัดตำแหน่งเมาส์บนหน้าจอ
-            const mouseX = (event.clientX / window.innerWidth) * 2 - 1;
-            const mouseY = -(event.clientY / window.innerHeight) * 2 + 1;
+        // --- 1. SETUP SCENE, CAMERA, RENDERER ---
+        const scene = new THREE.Scene();
+        // ท้องฟ้าสีฟ้าออกเขียว ปลอดโปร่ง ไม่มีเมฆ
+        scene.background = new THREE.Color(0x66a3a3);
+        scene.fog = new THREE.FogExp2(0x66a3a3, 0.035);
 
-            // สั่งให้โมเดลขยับหมุนตามทิศทางเมาส์ที่ผู้ใช้เลื่อน
-            creature.setAttribute('rotation', `${mouseY * 15} ${mouseX * 30} 0`);
+        const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
+        camera.position.set(0, 3, 7);
+        camera.lookAt(0, 1, 0);
+
+        const renderer = new THREE.WebGLRenderer({ antialias: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(window.devicePixelRatio);
+        document.body.appendChild(renderer.domElement);
+
+        // --- 2. LIGHTING ---
+        const ambientLight = new THREE.AmbientLight(0xd1f0f0, 0.7);
+        scene.add(ambientLight);
+
+        const dirLight = new THREE.DirectionalLight(0xfffaed, 1.2);
+        dirLight.position.set(5, 10, 7);
+        scene.add(dirLight);
+
+        // --- 3. ENVIRONMENT (DESERT & RUINS) ---
+        // พื้นทะเลทราย
+        const floorGeo = new THREE.PlaneGeometry(100, 100);
+        const floorMat = new THREE.MeshStandardMaterial({ color: 0xd4b278, roughness: 0.9 });
+        const floor = new THREE.Mesh(floorGeo, floorMat);
+        floor.rotation.x = -Math.PI / 2;
+        scene.add(floor);
+
+        // ซากปรักหักพังกระจายตัว (เศษเล็กและขนาดใหญ่รอบฉาก)
+        const ruinMat = new THREE.MeshStandardMaterial({ color: 0x826d4e, roughness: 0.8 });
+        const ruinGeos = [
+            new THREE.BoxGeometry(1.2, 0.6, 0.8),
+            new THREE.BoxGeometry(0.5, 1.5, 0.5),
+            new THREE.BoxGeometry(0.8, 0.3, 1.2),
+            new THREE.CylinderGeometry(0.3, 0.4, 1.0, 6),
+            new THREE.BoxGeometry(0.4, 0.4, 0.4)
+        ];
+
+        for (let i = 0; i < 25; i++) {
+            const geo = ruinGeos[Math.floor(Math.random() * ruinGeos.length)];
+            const ruin = new THREE.Mesh(geo, ruinMat);
+            
+            // สุ่มตำแหน่งรอบๆ โดยเว้นตรงกลางไว้ให้สิ่งมีชีวิต
+            const angle = Math.random() * Math.PI * 2;
+            const radius = 2.5 + Math.random() * 8;
+            ruin.position.set(Math.cos(angle) * radius, 0.2, Math.sin(angle) * radius);
+            
+            ruin.rotation.set(Math.random() * Math.PI, Math.random() * Math.PI, Math.random() * Math.PI);
+            scene.add(ruin);
+        }
+
+        // --- 4. CREATURE (สิ่งมีชีวิตคล้ายควายขายาวหลอมเหลวสีแดง) ---
+        const creatureGroup = new THREE.Group();
+        scene.add(creatureGroup);
+        creatureGroup.position.set(0, 0, 0);
+
+        // วัสดุของเหลวสีแดงเงางาม (ตามภาพเรฟเฟอเรนซ์)[cite: 2]
+        const fluidRedMat = new THREE.MeshStandardMaterial({ 
+            color: 0xff0022, 
+            roughness: 0.15, 
+            metalness: 0.85 
+        });
+
+        // ลำตัวและโครงกระดูก (ตรงกลาง)
+        const bodyGeo = new THREE.CylinderGeometry(0.12, 0.15, 1.8, 8);
+        bodyGeo.rotateZ(Math.PI / 2);
+        const body = new THREE.Mesh(bodyGeo, fluidRedMat);
+        body.position.set(0, 1.6, 0);
+        creatureGroup.add(body);
+
+        // หัวสิ่งมีชีวิต
+        const headGeo = new THREE.ConeGeometry(0.2, 0.7, 7);
+        headGeo.rotateX(Math.PI / 2);
+        const head = new THREE.Mesh(headGeo, fluidRedMat);
+        head.position.set(0, 1.7, -1.0);
+        creatureGroup.add(head);
+
+        // เขายาวโค้งอันเป็นเอกลักษณ์
+        const hornGeo = new THREE.TorusGeometry(0.4, 0.03, 8, 30, Math.PI * 1.3);
+        const leftHorn = new THREE.Mesh(hornGeo, fluidRedMat);
+        leftHorn.position.set(-0.15, 1.9, -1.0);
+        leftHorn.rotation.z = Math.PI / 4;
+        creatureGroup.add(leftHorn);
+
+        const rightHorn = new THREE.Mesh(hornGeo, fluidRedMat);
+        rightHorn.position.set(0.15, 1.9, -1.0);
+        rightHorn.rotation.z = -Math.PI / 4;
+        creatureGroup.add(rightHorn);
+
+        // ขายาวเรียวและเหลว (4 ขา)
+        const legGeo = new THREE.CylinderGeometry(0.04, 0.02, 1.7, 6);
+        const legPositions = [
+            [-0.4, 0.85, -0.7], // หน้าซ้าย
+            [ 0.4, 0.85, -0.7], // หน้าขวา
+            [-0.35, 0.85,  0.6], // หลังซ้าย
+            [ 0.35, 0.85,  0.6]  // หลังขวา
+        ];
+
+        const legs = [];
+        legPositions.forEach(pos => {
+            const leg = new THREE.Mesh(legGeo, fluidRedMat);
+            leg.position.set(...pos);
+            creatureGroup.add(leg);
+            legs.push(leg);
+        });
+
+        // --- 5. MOUSE INTERACTION & ANIMATION ---
+        let mouseX = 0;
+        let mouseY = 0;
+        let targetRotationX = 0;
+        let targetRotationY = 0;
+
+        window.addEventListener('mousemove', (event) => {
+            // แปลงพิกัดเมาส์เป็นค่า -1 ถึง 1
+            mouseX = (event.clientX / window.innerWidth) * 2 - 1;
+            mouseY = -(event.clientY / window.innerHeight) * 2 + 1;
+        });
+
+        const clock = new THREE.Clock();
+
+        function animate() {
+            requestAnimationFrame(animate);
+
+            const elapsedTime = clock.getElapsedTime();
+
+            // อนิเมชันการหายใจ/บิดตัวเบาๆ ของสิ่งมีชีวิต
+            creatureGroup.position.y = Math.sin(elapsedTime * 2) * 0.05;
+            body.rotation.y = Math.sin(elapsedTime * 1.5) * 0.05;
+
+            // คำนวณการหันตามเคอร์เซอร์เมาส์อย่างนุ่มนวล (Smooth damping)
+            targetRotationY = mouseX * 0.6;
+            targetRotationX = -mouseY * 0.3;
+
+            creatureGroup.rotation.y += (targetRotationY - creatureGroup.rotation.y) * 0.08;
+            creatureGroup.rotation.x += (targetRotationX - creatureGroup.rotation.x) * 0.08;
+
+            renderer.render(scene, camera);
+        }
+
+        animate();
+
+        // --- 6. RESIZE WINDOW HANDLING ---
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
         });
     </script>
 </body>
